@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue2-filters/dist/vue2-filters.min.js"></script>
+    <title>Primeiro exemplo</title>
+</head>
+<body>
+
+    <div id="diretivas">
+      <form action="" class="form" v-on:submit.prevent>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="nomeInput">Nome</label>
+                    <input type="text" class="form-control" id="nomeInput" name="Nome" placeholder="Digita ai cabeça" v-on:keyup.enter="send($event)">
+                </div>
+            </div>
+
+            <div class="form-group">
+                
+                <label for="">Pressione as teclas abaixo</label>
+                <input type="text" value="" class="form-control" placeholder="Pressione enter" @keyup.enter="exec">
+            </div>
+
+
+
+        </div>
+      </form>
+      <hr>
+
+      <div class="row">
+        <div class="col" v-on="{keyup.enter:send(event), click: toggleClass}">1</div>
+        <div class="col" @click="toggleClass">2</div>
+        <div class="col" @click="toggleClass">3</div>S
+        <div class="col" @click="toggleClass">4</div>
+        <div class="col" @click="toggleClass">5</div>
+      </div>
+    </div>
+    
+    <script>
+        let app = new Vue({
+            el: '#diretivas',
+            data: {
+                counter: 0
+            },
+            methods: {
+                send(event) {
+                    let form = event.target.form;
+                    let data = new FormData(form);
+                    for (let value of data.entries()) {
+                        console.log(`${value[0]}: ${value[1]}`);
+                    }
+                },
+                exec(e){
+                    console.log(e.key);
+                },
+                toggleClass(event){
+                let el = event.target;
+                let isClass = el.classList.contains('bg-info');
+                let method = (el.classList.contains('bg-info'))? 'remove': 'add';
+ 
+                // mesma função do código acima só que de form mais extensa
+                // if (isClass){
+                //     method='remove';
+                // }else{
+                //     method='add';
+                // }
+                 eval(`el.classList.${method}('bg-info')`);
+                }
+
+            }
+        });
+    </script>
+</body>
+</html>
